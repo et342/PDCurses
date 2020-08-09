@@ -535,6 +535,19 @@ int PDC_return_key_modifiers(bool flag)
     return PDC_modifiers_set();
 }
 
+#ifdef PDC_WINCON_EXT
+int PDC_no_map_modifiers(bool flag)
+{
+    PDC_LOG(("PDC_no_map_modifiers() - called\n"));
+
+    if (!SP)
+        return ERR;
+
+    SP->no_map_modifiers = flag;
+    return OK;
+}
+#endif
+
 #ifdef PDC_WIDE
 int wget_wch(WINDOW *win, wint_t *wch)
 {

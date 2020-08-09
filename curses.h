@@ -17,6 +17,8 @@ Define before inclusion (only those needed):
     PDC_NCMOUSE     to use the ncurses mouse API instead
                     of PDCurses' traditional mouse API
 
+    PDC_WINCON_EXT  to enable wincon-specific extensions to PDCurses
+
 Defined by this header:
 
     PDCURSES        PDCurses-only features are available
@@ -355,6 +357,12 @@ typedef struct
                                       returned as "real" keys */
     bool  key_code;                /* TRUE if last key is a special key;
                                       used internally by get_wch() */
+#ifdef PDC_WINCON_EXT
+    bool  no_map_modifiers;        /* TRUE if modifier keys don't map to
+                                      CTL_*, ALT_*, SHF_* and curses KEY_S*
+                                      key constants. */
+#endif
+
     MOUSE_STATUS mouse_status;     /* last returned mouse status */
     short line_color;     /* color of line attributes - default -1 */
     attr_t termattrs;     /* attribute capabilities */
@@ -1340,6 +1348,10 @@ PDCEX  int     PDC_setclipboard(const char *, long);
 
 PDCEX  unsigned long PDC_get_key_modifiers(void);
 PDCEX  int     PDC_return_key_modifiers(bool);
+
+#ifdef PDC_WINCON_EXT
+PDCEX  int     PDC_no_map_modifiers(bool);
+#endif
 
 #ifdef XCURSES
 PDCEX  WINDOW *Xinitscr(int, char **);

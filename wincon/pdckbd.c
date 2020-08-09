@@ -410,6 +410,41 @@ static int _process_key_event(void)
         idx = vk;
     }
 
+#ifdef PDC_WINCON_EXT
+    if (SP->no_map_modifiers)
+    {
+        enum {
+            SHF_BIT = SHIFT_PRESSED,
+            CTL_BIT = LEFT_CTRL_PRESSED | RIGHT_CTRL_PRESSED,
+            ALT_BIT = LEFT_ALT_PRESSED | RIGHT_ALT_PRESSED,
+        };
+
+        if (enhanced)
+        {
+            state &= ~(SHF_BIT | CTL_BIT | ALT_BIT);
+        }
+        else if (  8 == idx ||
+             48 <= idx && idx <=  90 ||
+            219 <= idx && idx <= 222)
+        {
+            state &= ~ALT_BIT;
+        }
+        else if ( 12 <= idx && idx <=  46 ||
+                  96 <= idx && idx <= 105 ||
+                 110 == idx)
+        {
+            state &= ~(CTL_BIT | ALT_BIT);
+        }
+        else if (  9 == idx ||
+                 106 <= idx && idx <= 109 ||
+                 111 == idx ||
+                 191 == idx)
+        {
+            state &= ~(SHF_BIT | CTL_BIT | ALT_BIT);
+        }
+    }
+#endif
+
     if (state & SHIFT_PRESSED)
         key = enhanced ? ext_kptab[idx].shift : kptab[idx].shift;
 
