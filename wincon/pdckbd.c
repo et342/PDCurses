@@ -424,12 +424,13 @@ static int _process_key_event(void)
             state &= ~(SHF_BIT | CTL_BIT | ALT_BIT);
         }
         else if (  8 == idx ||
-             48 <= idx && idx <=  90 ||
+             65 <= idx && idx <=  90 ||
             219 <= idx && idx <= 222)
         {
             state &= ~ALT_BIT;
         }
         else if ( 12 <= idx && idx <=  46 ||
+                  48 <= idx && idx <=  57 ||
                   96 <= idx && idx <= 105 ||
                  110 == idx)
         {
